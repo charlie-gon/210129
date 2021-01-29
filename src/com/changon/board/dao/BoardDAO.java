@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import com.changon.board.common.DAO;
 import com.changon.board.vo.BoardVO;
+import com.changon.board.vo.ReplyVO;
 
 public class BoardDAO extends DAO {
 	
@@ -30,9 +31,6 @@ public class BoardDAO extends DAO {
 				vo.setbContent(rs.getString("bContent"));
 				vo.setbDate(rs.getDate("bDate"));
 				vo.setbHit(rs.getInt("bHit"));
-				vo.setbGroup(rs.getInt("bGroup"));
-				vo.setbStep(rs.getInt("bStep"));
-				vo.setbIndent(rs.getInt("bIndent"));
 				list.add(vo);
 			}
 		}catch(SQLException e) {
@@ -60,9 +58,6 @@ public class BoardDAO extends DAO {
 				vo.setbContent(rs.getString("bContent"));
 				vo.setbDate(rs.getDate("bDate"));
 				vo.setbHit(rs.getInt("bHit"));
-				vo.setbGroup(rs.getInt("bGroup"));
-				vo.setbStep(rs.getInt("bStep"));
-				vo.setbIndent(rs.getInt("bIndent"));
 				hitCount(vo.getbId()); // 글 조회수
 			}
 			
@@ -89,9 +84,6 @@ public BoardVO editSelect(BoardVO vo) {
 				vo.setbContent(rs.getString("bContent"));
 				vo.setbDate(rs.getDate("bDate"));
 				vo.setbHit(rs.getInt("bHit"));
-				vo.setbGroup(rs.getInt("bGroup"));
-				vo.setbStep(rs.getInt("bStep"));
-				vo.setbIndent(rs.getInt("bIndent"));
 			}
 			
 		}catch(SQLException e) {
@@ -187,6 +179,32 @@ public BoardVO editSelect(BoardVO vo) {
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	// 댓글 가져오기
+	public ArrayList<ReplyVO> replySelect(ReplyVO rvo){
+		ArrayList<ReplyVO> replyList = new ArrayList<ReplyVO>();
+		
+		String sql = "SELECT * FROM REPLY WHERE BID = ?";
+		
+		try {
+			psmt = conn.prepareStatement(sql);
+			psmt.setInt(1, rvo.getBid());
+			rs = psmt.executeQuery();
+			while(rs.next()) {
+				rvo = new ReplyVO();
+				rvo.setBid(rs.getInt("bid"));
+				rvo.setRnum(rs.getInt("rnum"));
+				rvo.setSubject(rs.getString("subject"));
+				rvo.setRdate(rs.getDate("rdate"));
+				replyList.add(rvo);
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close();
+		}
+		return replyList;
 	}
 	
 	

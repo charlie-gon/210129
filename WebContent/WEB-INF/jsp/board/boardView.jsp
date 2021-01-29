@@ -27,6 +27,9 @@ td, th {
   padding: 8px;
 }
 
+.replyColumn{
+	background-color: #dddddd;
+}
 
 </style>
 
@@ -74,7 +77,27 @@ td, th {
 				<td colspan="7"><textarea rows="10" cols="100" required="required" readonly>${vo.bContent }</textarea></td>
 			</tr>
 		</table>
-
+		<p/>
+	<!-- 댓글 출력 -->
+	<div class="reply">
+		<c:if test="${not empty list }">
+			<table border="1">
+				<tr class="replyColumn">
+					<td align="center">내용</td>
+					<td align="center">날짜</td>
+				</tr>
+			</table>
+			<c:forEach var="rvo" items="${list }">
+				<table border="1">
+					<tr>
+						<td width="500">${rvo.subject }</td>
+						<td width="100">${rvo.rdate }</td>
+					</tr>
+				</table>
+			</c:forEach>
+		</c:if>
+	</div>
+	
 		<p />
 		<div>
 			<button type="button" onclick="updateAlert()">글 수정</button>
@@ -84,7 +107,7 @@ td, th {
 			<button type="button" onclick="location.href='/210129/boardList.do'">목록으로이동</button>
 		</div>
 		
-		</div>
+	</div>
 
 
 </html>
